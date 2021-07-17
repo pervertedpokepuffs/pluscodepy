@@ -8,15 +8,17 @@ class Converter:
 
     def decode(self, pluscode):
         match = re.match('^(\S*\S{2})\s*(.*?),\s*(.*)$', pluscode)
-        if match is None:
-            return False
-        if len(match.groups()) > 1:
-            fullcode = self.convertShortcodeToFull(match.group(1), match.group(2))
+        if match is not None:
+            if len(match.groups()) > 1:
+                fullcode = self.convertShortcodeToFull(match.group(1), match.group(2))
         else:
             fullcode = pluscode
         if not fullcode:
             return False
-        decoded = olc.decode(fullcode)
+        try:
+            decoded = olc.decode(fullcode)
+        except:
+            return False
         return (decoded.latitudeCenter, decoded.longitudeCenter)
 
     def convertShortcodeToFull(self, pluscode, city):
