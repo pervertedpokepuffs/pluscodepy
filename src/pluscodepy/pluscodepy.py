@@ -19,10 +19,10 @@ class Converter:
     def decode(self, pluscode: str):
         match = re.match('^(\S*\+\S{2})\s*(.*?)$', pluscode)
         if match is not None:
-            if len(match.groups()) > 1:
+            if match.group(2) != "":
                 fullcode = self.convertShortcodeToFull(match.group(1), match.group(2))
-        else:
-            fullcode = pluscode
+            else:
+                fullcode = pluscode
         if not fullcode:
             return False
         try:
