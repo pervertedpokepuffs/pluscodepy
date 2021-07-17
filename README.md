@@ -3,21 +3,30 @@ Simple plus code to lat/long decoder written for White Flag Project.
 
 ## Quickstart
 1. `pip install pluscodepy`
-2. `converter = pluscodepy.Converter('places.json')`
-3. `latitude, longitude = converter.decode('GM83+2X Skudai, Johor')`
+2. `list_of_places = [{'name': 'Some place string', 'latitude': 1.921313, 'longitude': 207.124523}, ...]`
+3. `converter = pluscodepy.Converter(filestream)`
+4. `latitude, longitude = converter.decode('GM83+2X Skudai, Johor')`
 
 ## Install
 `pip install pluscodepy`
 ## Usage
 ### Parameters
-#### \_\_init\_\_(filename: str)
-`filename: str` Name/path to file the json containing a place index. If none exists, one will be created.
+#### \_\_init\_\_(index: list[dict])
+`index: list[dict]` List of dictionaries with a name field for the place string, a longitude field, and a latitude field.
 
 #### decode(pluscode: str)
 `pluscode: str` Plus code to be decoded.
-### Return
+
+Return
+
 `Union[(float, float), False]`
 Returns a float of tuples representing latitude and longitude OR returns false if the pluscode cannot be decoded.
+
+#### getCities()
+Return
+
+`list[dict]` List of dictionaries with a name field for the place string, a longitude field, and a latitude field.
+
 
 ## How it works
 The converter makes use of the [Google Open Location Code](https://github.com/google/open-location-code/tree/main/python) library to decode and works with both full code and short code. The converter will try to work offline whenever possible.

@@ -6,15 +6,13 @@ import time
 import openlocationcode.openlocationcode as olc
 
 class Converter:
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, index=[]):
+        self.cities = index
         self.ratelimit = 1
-        with open(self.filename, 'r+', encoding='utf-8') as file:
-            try:
-                self.cities = json.load(file)
-            except json.JSONDecodeError:
-                self.cities = []
         self.lastcall = datetime.datetime.now()
+
+    def getCities(self):
+        return self.cities
 
     def decode(self, pluscode: str):
         match = re.match('^(\S*\+\S{2})\s*(.*?)$', pluscode)
@@ -43,8 +41,6 @@ class Converter:
             if city is False: return False
             print(f'getting for {place}')
             self.cities = self.cities + [city]
-            with open(self.filename, 'w', encoding='utf-8') as file:
-                json.dump(self.cities, file)
         else:
             city = city.pop()
         city_prefix = olc.encode(city['latitude'], city['longitude'])[0:4]
